@@ -92,6 +92,99 @@
         .status-value.online {
             color: #4caf50;
         }
+        
+        .status-value.qr-ready {
+            color: #ff9800;
+        }
+        
+        .status-value.connecting {
+            color: #2196f3;
+        }
+        
+        .status-value.offline {
+            color: #f44336;
+        }
+        
+        .status-value.warning {
+            color: #ff9800;
+        }
+
+        .status-value.high-cpu {
+            color: #f44336;
+        }
+
+        .status-value.medium-cpu {
+            color: #ff9800;
+        }
+
+        .status-value.low-cpu {
+            color: #4caf50;
+        }
+
+        .status-value.high-memory {
+            color: #f44336;
+        }
+
+        .status-value.medium-memory {
+            color: #ff9800;
+        }
+
+        .status-value.low-memory {
+            color: #4caf50;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4caf50;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .progress-fill.high {
+            background: #f44336;
+        }
+
+        .progress-fill.medium {
+            background: #ff9800;
+        }
+
+        .progress-fill.low {
+            background: #4caf50;
+        }
+
+        #qrCodeImage {
+            max-width: 256px;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            padding: 10px;
+        }
+        
+        #connectionStatus {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        .connection-success {
+            background: #d4edda !important;
+            border-color: #c3e6cb !important;
+            color: #155724 !important;
+        }
+        
+        .connection-error {
+            background: #f8d7da !important;
+            border-color: #f5c6cb !important;
+            color: #721c24 !important;
+        }
 
         .commands-grid {
             display: grid;
@@ -151,7 +244,7 @@
         <div class="card">
             <h2>Status Bot</h2>
             <div class="status-item">
-                <span class="status-label">Status</span>
+                <span class="status-label">Server Status</span>
                 <span class="status-value online" id="status">Loading...</span>
             </div>
             <div class="status-item">
@@ -166,6 +259,114 @@
                 <span class="status-label">Version</span>
                 <span class="status-value" id="version">Loading...</span>
             </div>
+            <div class="status-item">
+                <span class="status-label">WhatsApp Status</span>
+                <span class="status-value" id="whatsappStatus">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Uptime</span>
+                <span class="status-value" id="uptime">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Last Update</span>
+                <span class="status-value" id="lastUpdate">Loading...</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>System Monitoring</h2>
+            <div class="status-item">
+                <span class="status-label">CPU Usage</span>
+                <span class="status-value" id="cpuUsage">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">CPU Cores</span>
+                <span class="status-value" id="cpuCores">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Memory Usage</span>
+                <span class="status-value" id="memoryUsage">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Memory Total</span>
+                <span class="status-value" id="memoryTotal">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Memory Free</span>
+                <span class="status-value" id="memoryFree">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Process Memory</span>
+                <span class="status-value" id="processMemory">Loading...</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Network Bandwidth</h2>
+            <div class="status-item">
+                <span class="status-label">Upload (KB)</span>
+                <span class="status-value" id="bandwidthUpload">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Download (KB)</span>
+                <span class="status-value" id="bandwidthDownload">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Upload (MB)</span>
+                <span class="status-value" id="bandwidthUploadMb">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Download (MB)</span>
+                <span class="status-value" id="bandwidthDownloadMb">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Total Transfer</span>
+                <span class="status-value" id="totalTransfer">Loading...</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>WhatsApp Connection</h2>
+            <div id="connectionSection">
+                <div id="qrSection" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px;">Scan QR Code dengan WhatsApp</h3>
+                        <div id="qrCodeContainer" style="margin: 20px auto; max-width: 300px;">
+                            <img id="qrCodeImage" alt="QR Code" style="width: 100%; border: 2px solid #ddd; border-radius: 8px;">
+                            <p style="margin-top: 10px; color: #666;">QR Code akan diupdate otomatis</p>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button id="refreshQR" style="background: #667eea; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                                🔄 Refresh QR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="pairSection" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px;">Masukkan Pair Code</h3>
+                        <div style="margin: 20px auto; max-width: 400px;">
+                            <input type="tel" id="phoneNumberInput" placeholder="Nomor HP (ex: 6281234567890)" 
+                                   style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px; font-size: 16px;">
+                            <button id="requestPairCode" style="background: #4caf50; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
+                                📱 Request Pair Code
+                            </button>
+                            <div id="pairCodeResult" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="connectionStatus" style="text-align: center; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                    <div id="connectionMessage">Memeriksa status koneksi...</div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="toggleConnection" style="background: #ff6b6b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                        🔄 Connect Method
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="card">
@@ -176,12 +377,12 @@
             <div class="commands-grid">
                 <div class="command-card">
                     <div class="command-title">TikTok</div>
-                    <div class="command-syntax">.tiktok&lt;url_tiktok&gt;</div>
+                    <div class="command-syntax">.tt&lt;url_tiktok&gt;</div>
                     <div class="command-desc">Download video TikTok tanpa watermark</div>
                 </div>
                 <div class="command-card">
                     <div class="command-title">YouTube Video</div>
-                    <div class="command-syntax">.yt&lt;url_youtube&gt;</div>
+                    <div class="command-syntax">.ytmp4&lt;url_youtube&gt;</div>
                     <div class="command-desc">Download video YouTube</div>
                 </div>
                 <div class="command-card">
@@ -218,19 +419,268 @@
     <script>
         const logoutBtn = document.getElementById('logoutBtn');
 
+        let currentConnectionMethod = 'qr';
+        let eventSource = null;
+        let updateInterval = null;
+        let qrLoaded = false;
+        let lastStatus = null;
+
         async function loadStatus() {
             try {
                 const response = await fetch('/api/status');
                 const data = await response.json();
 
+                // Bot status
                 document.getElementById('status').textContent = data.status === 'online' ? '🟢 Online' : data.status;
                 document.getElementById('port').textContent = data.port;
                 document.getElementById('botName').textContent = data.bot;
                 document.getElementById('version').textContent = data.version;
+                document.getElementById('uptime').textContent = formatUptime(data.uptime);
+                
+                // WhatsApp status
+                if (data.whatsapp) {
+                    updateWhatsAppStatus(data.whatsapp.status, data.whatsapp.hasQR);
+                    document.getElementById('lastUpdate').textContent = new Date(data.whatsapp.timestamp).toLocaleString('id-ID');
+                }
+
+                // System stats
+                if (data.system) {
+                    updateSystemStats(data.system);
+                }
             } catch (error) {
                 console.error('Failed to load status:', error);
                 document.getElementById('status').textContent = 'Error';
             }
+        }
+
+        function updateSystemStats(system) {
+            // CPU
+            const cpuUsage = system.cpu.usage || 0;
+            document.getElementById('cpuUsage').textContent = `${cpuUsage}%`;
+            document.getElementById('cpuUsage').className = `status-value ${getCPUMemoryClass(cpuUsage)}`;
+            document.getElementById('cpuCores').textContent = system.cpu.cores || 0;
+
+            // Memory
+            const memUsed = system.memory.used || 0;
+            const memTotal = system.memory.total || 0;
+            const memPercent = Math.round((memUsed / memTotal) * 100);
+            
+            document.getElementById('memoryUsage').textContent = `${memUsed}MB (${memPercent}%)`;
+            document.getElementById('memoryUsage').className = `status-value ${getCPUMemoryClass(memPercent)}`;
+            document.getElementById('memoryTotal').textContent = `${memTotal}MB`;
+            document.getElementById('memoryFree').textContent = `${system.memory.free || 0}MB`;
+            document.getElementById('processMemory').textContent = `${system.memory.process.rss || 0}MB`;
+
+            // Bandwidth
+            document.getElementById('bandwidthUpload').textContent = `${system.bandwidth.upload || 0} KB`;
+            document.getElementById('bandwidthDownload').textContent = `${system.bandwidth.download || 0} KB`;
+            document.getElementById('bandwidthUploadMb').textContent = `${system.bandwidth.uploadMb || 0} MB`;
+            document.getElementById('bandwidthDownloadMb').textContent = `${system.bandwidth.downloadMb || 0} MB`;
+            
+            const totalMb = (system.bandwidth.uploadMb || 0) + (system.bandwidth.downloadMb || 0);
+            document.getElementById('totalTransfer').textContent = `${totalMb.toFixed(2)} MB`;
+        }
+
+        function getCPUMemoryClass(percentage) {
+            if (percentage >= 80) return 'high-cpu';
+            if (percentage >= 60) return 'medium-cpu';
+            return 'low-cpu';
+        }
+
+        function formatUptime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (days > 0) {
+                return `${days}d ${hours % 24}h ${minutes % 60}m`;
+            } else if (hours > 0) {
+                return `${hours}h ${minutes % 60}m`;
+            } else if (minutes > 0) {
+                return `${minutes}m ${seconds % 60}s`;
+            } else {
+                return `${seconds}s`;
+            }
+        }
+
+        function updateWhatsAppStatus(status, hasQR) {
+            const statusElement = document.getElementById('whatsappStatus');
+            const connectionMessage = document.getElementById('connectionMessage');
+
+            statusElement.textContent = getStatusDisplay(status);
+            statusElement.className = 'status-value ' + getStatusClass(status);
+
+            // Reset QR loaded flag when status actually changes to a state that needs new QR
+            if (status !== lastStatus && (status === 'qr-ready' || status === 'disconnected' || status === 'needs-scan')) {
+                qrLoaded = false;
+            }
+            lastStatus = status;
+
+            switch (status) {
+                case 'qr-ready':
+                    showQRSection();
+                    connectionMessage.innerHTML = '📱 Scan QR Code untuk menghubungkan WhatsApp';
+                    break;
+                case 'connecting':
+                    connectionMessage.innerHTML = '🔄 Menghubungkan ke WhatsApp...';
+                    break;
+                case 'connected':
+                    connectionMessage.innerHTML = '✅ WhatsApp terhubung!';
+                    hideConnectionSection();
+                    break;
+                case 'disconnected':
+                    connectionMessage.innerHTML = '❌ WhatsApp terputus. Menunggu QR Code baru...';
+                    break;
+                case 'needs-scan':
+                    connectionMessage.innerHTML = '📱 Silakan scan QR Code kembali';
+                    break;
+                default:
+                    connectionMessage.innerHTML = status || 'Status tidak diketahui';
+            }
+        }
+
+        function getStatusDisplay(status) {
+            const statusMap = {
+                'qr-ready': '📱 QR Ready',
+                'connecting': '🔄 Connecting',
+                'connected': '✅ Connected',
+                'disconnected': '❌ Disconnected',
+                'needs-scan': '📱 Needs Scan'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getStatusClass(status) {
+            const classMap = {
+                'qr-ready': 'qr-ready',
+                'connecting': 'connecting',
+                'connected': 'online',
+                'disconnected': 'offline',
+                'needs-scan': 'warning'
+            };
+            return classMap[status] || '';
+        }
+
+        function showQRSection() {
+            document.getElementById('qrSection').style.display = currentConnectionMethod === 'qr' ? 'block' : 'none';
+            document.getElementById('pairSection').style.display = currentConnectionMethod === 'pair' ? 'block' : 'none';
+            document.getElementById('connectionSection').style.display = 'block';
+            if (currentConnectionMethod === 'qr' && !qrLoaded) {
+                loadQRCode();
+            }
+        }
+
+        function showPairSection() {
+            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('pairSection').style.display = currentConnectionMethod === 'pair' ? 'block' : 'none';
+            document.getElementById('connectionSection').style.display = 'block';
+        }
+
+        function hideConnectionSection() {
+            document.getElementById('connectionSection').style.display = 'none';
+        }
+
+        async function loadQRCode() {
+            if (currentConnectionMethod !== 'qr') return;
+
+            try {
+                const response = await fetch('/api/qr');
+                const data = await response.json();
+
+                if (data.success && data.qrCode) {
+                    document.getElementById('qrCodeImage').src = `/api/qr/image?${Date.now()}`;
+                    updateWhatsAppStatus(data.status, true);
+                    qrLoaded = true;
+                }
+            } catch (error) {
+                console.error('Failed to load QR code:', error);
+                document.getElementById('qrCodeImage').alt = 'Failed to load QR code';
+            }
+        }
+
+        function toggleConnectionMethod() {
+            currentConnectionMethod = currentConnectionMethod === 'qr' ? 'pair' : 'qr';
+            document.getElementById('toggleConnection').textContent = currentConnectionMethod === 'qr' ? '🔄 Connect Method' : '🔄 Switch to QR';
+            
+            if (currentConnectionMethod === 'qr') {
+                showQRSection();
+            } else {
+                showPairSection();
+            }
+        }
+
+        async function requestPairCode() {
+            const phoneNumber = document.getElementById('phoneNumberInput').value;
+            const resultDiv = document.getElementById('pairCodeResult');
+            
+            if (!phoneNumber) {
+                resultDiv.innerHTML = '<div style="background: #ffebee; color: #c62828;">❌ Masukkan nomor HP</div>';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/pair-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phoneNumber })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div style="background: #e8f5e8; color: #2e7d32;">
+                            <strong>Pair Code: ${data.pairCode}</strong><br>
+                            <small>Masukkan code ini di WhatsApp: Settings > Linked Devices > Link Device</small>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div style="background: #ffebee; color: #c62828;">❌ ${data.message}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<div style="background: #ffebee; color: #c62828;">❌ Gagal meminta pair code</div>';
+            }
+            
+            resultDiv.style.display = 'block';
+        }
+
+        function startRealTimeUpdates() {
+            if (eventSource) {
+                eventSource.close();
+            }
+            
+            eventSource = new EventSource('/api/events');
+            
+            eventSource.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+
+                    if (data.type === 'status-update') {
+                        updateWhatsAppStatus(data.status, data.hasQR);
+                        document.getElementById('lastUpdate').textContent = new Date(data.timestamp).toLocaleString('id-ID');
+
+                        // Only load QR code once when it becomes available
+                        if (data.status === 'qr-ready' && data.hasQR && currentConnectionMethod === 'qr' && !qrLoaded) {
+                            loadQRCode();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error processing event:', error);
+                }
+            };
+            
+            eventSource.onerror = function(event) {
+                console.error('EventSource error:', event);
+                eventSource.close();
+                
+                setTimeout(() => {
+                    startRealTimeUpdates();
+                }, 5000);
+            };
         }
 
         logoutBtn.addEventListener('click', async () => {
@@ -247,7 +697,20 @@
             }
         });
 
+        document.getElementById('toggleConnection').addEventListener('click', toggleConnectionMethod);
+        document.getElementById('refreshQR').addEventListener('click', () => {
+            qrLoaded = false;
+            loadQRCode();
+        });
+        document.getElementById('requestPairCode').addEventListener('click', requestPairCode);
+        document.getElementById('phoneNumberInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                requestPairCode();
+            }
+        });
+
         loadStatus();
+        startRealTimeUpdates();
     </script>
 </body>
 </html>

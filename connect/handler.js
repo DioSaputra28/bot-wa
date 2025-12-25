@@ -35,7 +35,7 @@ export async function startHandler(sock, msg) {
             await handleCommand(sock, jid, text, pushName)
         } else {
             await sock.sendMessage(jid, {
-                text: `Halo ${pushName}! Bot WhatsApp aktif.\n\nKetik !help untuk melihat daftar perintah.\n\nAtau gunakan perintah download:\n• .tiktok<url> - Download video TikTok\n• .yt<url> - Download video YouTube\n• .ytmp3<url> - Download audio YouTube\n• .ig<url> - Download Instagram\n• .twitter<url> - Download Twitter/X\n• .fb<url> - Download Facebook`
+                text: `Halo ${pushName}! Bot WhatsApp aktif.\n\nKetik !help untuk melihat daftar perintah.\n\nAtau gunakan perintah download:\n• .tt<url> - Download video TikTok\n• .ytmp4<url> - Download video YouTube\n• .ytmp3<url> - Download audio YouTube\n• .ig<url> - Download Instagram\n• .twitter<url> - Download Twitter/X\n• .fb<url> - Download Facebook`
             })
         }
 

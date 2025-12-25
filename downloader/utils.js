@@ -1,5 +1,5 @@
 export const URL_PATTERNS = {
-    tiktok: /(?:https?:\/\/)?(?:www\.|vm\.|vt\.)?tiktok\.com\/(@?[\w.]+)\/video\/(\d+)|(?:https?:\/\/)?(?:www\.)?tiktok\.com\/t\/[\w-]+/,
+    tiktok: /(?:https?:\/\/)?(?:www\.)?(?:vm\.)?(?:vt\.)?tiktok\.com\/(@?[\w.]+)\/video\/(\d+)|(?:https?:\/\/)?(?:www\.)?(?:vm\.)?(?:vt\.)?tiktok\.com\/t\/[\w-]+|(?:https?:\/\/)?(?:www\.)?(?:vm\.)?(?:vt\.)?tiktok\.com\/[\w-]+/,
     youtube: /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/,
     instagram: /(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reel|stories\/[\w-]+\/\d+)\/([\w-]+)|(?:https?:\/\/)?(?:www\.)?instagram\.com\/reels?\/[\w-]+/,
     twitter: /(?:https?:\/\/)?(?:www\.|mobile\.)?(?:twitter\.com|x\.com)\/[\w]+\/status\/(\d+)|(?:https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/i\/status\/(\d+)/,
@@ -15,8 +15,8 @@ export function validateURL(url, type) {
 
 export function extractCommandAndURL(text) {
     const commands = {
-        '.tiktok': 'tiktok',
-        '.yt': 'youtube',
+        '.tt': 'tiktok',
+        '.ytmp4': 'youtube',
         '.ytmp3': 'youtube_mp3',
         '.ig': 'instagram',
         '.twitter': 'twitter',
@@ -27,12 +27,18 @@ export function extractCommandAndURL(text) {
     for (const [cmd, platform] of Object.entries(commands)) {
         if (text.startsWith(cmd)) {
             const url = text.slice(cmd.length).trim()
+            console.log(`Command: ${cmd}, Platform: ${platform}, URL: "${url}"`)
+            
             if (url && validateURL(url, platform === 'youtube_mp3' ? 'youtube' : platform)) {
+                console.log(`URL validation passed for platform: ${platform}`)
                 return { command: cmd, platform, url }
+            } else {
+                console.log(`URL validation failed for platform: ${platform}`)
             }
         }
     }
 
+    console.log(`No command found in text: "${text}"`)
     return null
 }
 

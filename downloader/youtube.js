@@ -1,5 +1,5 @@
 import pkg from 'youtube-dl-exec'
-const { youtubedl } = pkg
+const { youtubeDl } = pkg
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -21,7 +21,7 @@ export async function downloadYouTube(url, isAudio = false) {
         let result
 
         if (isAudio) {
-            await youtubedl(url, {
+            await youtubeDl(url, {
                 extractAudio: true,
                 audioFormat: 'mp3',
                 output: tempPath,
@@ -38,7 +38,7 @@ export async function downloadYouTube(url, isAudio = false) {
                 filepath: tempPath
             }
         } else {
-            await youtubedl(url, {
+            await youtubeDl(url, {
                 format: 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
                 output: tempPath,
                 noCheckCertificate: true,
